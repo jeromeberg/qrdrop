@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 import { usePeerConnection } from './hooks/usePeerConnection'
 import { useFileTransfer } from './hooks/useFileTransfer'
 import { HostScreen } from './components/HostScreen'
-import { JoinScreen } from './components/JoinScreen'
 import { RoomView } from './components/RoomView'
 import { WelcomeScreen } from './components/WelcomeScreen'
+
+const JoinScreen = lazy(() =>
+  import('./components/JoinScreen').then((m) => ({ default: m.JoinScreen })),
+)
 
 type Screen = 'welcome' | 'host' | 'join'
 
@@ -44,12 +47,14 @@ function App() {
     )
   } else if (screen === 'join') {
     content = (
-      <JoinScreen
-        status={peer.status}
-        errorMessage={peer.errorMessage}
-        onJoin={peer.joinPeer}
-        onBack={leaveRoom}
-      />
+      <Suspense fallback={null}>
+        <JoinScreen
+          status={peer.status}
+          errorMessage={peer.errorMessage}
+          onJoin={peer.joinPeer}
+          onBack={leaveRoom}
+        />
+      </Suspense>
     )
   } else {
     content = <WelcomeScreen onSelect={setScreen} />
@@ -77,10 +82,16 @@ function App() {
       </Box>
 
       <Typography variant="caption" color="text.secondary" align="center" sx={{ pt: 2 }}>
-        Copyright 2026.{' '}Made by{' '}
-        <Link href="https://github.com/jeromeberg" target="_blank" rel="noopener noreferrer" color="inherit">
+        Copyright 2026. Made by{' '}
+        <Link
+          href="https://github.com/jeromeberg"
+          target="_blank"
+          rel="noopener noreferrer"
+          color="inherit"
+        >
           Jerome Berg
-        </Link>.
+        </Link>
+        .
       </Typography>
     </Box>
   )
