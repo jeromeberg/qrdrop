@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { QRCodeSVG } from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -52,7 +52,7 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
         }}
       >
         {peerId ? (
-          <QRCodeSVG value={peerId} size={232} level="M" marginSize={1} bgColor="white" />
+          <QRCodeCanvas value={peerId} size={232} level="M" marginSize={1} bgColor="#ffffff" fgColor="#000000" />
         ) : (
           <CircularProgress />
         )}
