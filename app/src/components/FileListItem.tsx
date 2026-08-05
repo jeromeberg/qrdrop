@@ -72,12 +72,13 @@ export function FileListItem({ file, onDownload }: FileListItemProps) {
       </Box>
 
       {file.status === 'error' && <ErrorOutlineIcon color="error" fontSize="small" />}
-
-      <Tooltip title="Save file">
-        <IconButton size="small" onClick={() => onDownload(file.id)}>
-          <DownloadIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      {file.blob && (
+        <Tooltip title="Save file">
+          <IconButton size="small" onClick={() => onDownload(file.id)}>
+            <DownloadIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
     </Stack>
   )
 }
