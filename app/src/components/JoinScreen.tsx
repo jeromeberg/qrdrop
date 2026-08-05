@@ -78,7 +78,7 @@ export function JoinScreen({ status, errorMessage, onJoin, onBack }: JoinScreenP
       <Typography variant="h5" sx={{ fontWeight: 600 }}>
         Join a room
       </Typography>
-      <Typography variant="body2" color="text.secondary" align="center">
+      <Typography variant="body2" color="textSecondary" align="center">
         Scan the host's QR code with your camera.
       </Typography>
 
@@ -96,7 +96,7 @@ export function JoinScreen({ status, errorMessage, onJoin, onBack }: JoinScreenP
       {busy && (
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <CircularProgress size={16} />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="textSecondary">
             Connecting...
           </Typography>
         </Stack>

@@ -18,6 +18,13 @@ function App() {
   const [screen, setScreen] = useState<Screen>('welcome')
   const peer = usePeerConnection()
   const { files, sendFiles, downloadFile } = useFileTransfer(peer.connection)
+  const [hasConnectedOnce, setHasConnectedOnce] = useState(false)
+  const [prevStatus, setPrevStatus] = useState(peer.status)
+  if (peer.status !== prevStatus) {
+    setPrevStatus(peer.status)
+    if (peer.status === 'connected') setHasConnectedOnce(true)
+    if (peer.status === 'idle') setHasConnectedOnce(false)
+  }
 
   const leaveRoom = () => {
     peer.disconnect()
@@ -25,7 +32,7 @@ function App() {
   }
 
   let content: React.ReactNode
-  if (peer.status === 'connected') {
+  if (hasConnectedOnce) {
     content = (
       <RoomView
         status={peer.status}
@@ -81,7 +88,7 @@ function App() {
         {content}
       </Box>
 
-      <Typography variant="caption" color="text.secondary" align="center" sx={{ pt: 2 }}>
+      <Typography variant="caption" color="textSecondary" align="center" sx={{ pt: 2 }}>
         Copyright 2026. Made by{' '}
         <Link
           href="https://github.com/jeromeberg"

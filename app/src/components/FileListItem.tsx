@@ -50,10 +50,10 @@ export function FileListItem({ file, onDownload }: FileListItemProps) {
           {file.name}
         </Typography>
         <Stack direction="row" spacing={1}>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="textSecondary">
             {formatBytes(file.size)}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="textSecondary">
             {formatTimestamp(file.timestamp)}
           </Typography>
         </Stack>

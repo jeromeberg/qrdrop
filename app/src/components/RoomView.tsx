@@ -38,10 +38,12 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const statusConfig = STATUS_CONFIG[status]
   const sorted = [...files].sort((a, b) => b.timestamp - a.timestamp)
+  const canSend = status === 'connected'
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setIsDragging(false)
+    if (!canSend) return
     if (e.dataTransfer.files.length > 0) {
       onSendFiles(e.dataTransfer.files)
     }
@@ -54,7 +56,7 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
     >
       <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Room
+          Files
         </Typography>
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <Chip
@@ -73,7 +75,7 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
       <Paper variant="outlined" sx={{ flex: 1, minHeight: 0, borderRadius: 1, overflow: 'auto' }}>
         {sorted.length === 0 ? (
           <Box sx={{ p: 4, textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="textSecondary">
               No files yet. Add or drop files below to send them.
             </Typography>
           </Box>
@@ -86,7 +88,7 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
         variant="outlined"
         onDragOver={(e) => {
           e.preventDefault()
-          setIsDragging(true)
+          if (canSend) setIsDragging(true)
         }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
@@ -98,15 +100,17 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
           bgcolor: isDragging ? 'action.hover' : 'transparent',
           textAlign: 'center',
           transition: 'background-color 0.15s, border-color 0.15s',
+          opacity: canSend ? 1 : 0.6,
         }}
       >
         <Stack spacing={1} sx={{ alignItems: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color={canSend ? 'textSecondary' : 'textDisabled'}>
             Drag files here
           </Typography>
           <Button
             variant="contained"
             startIcon={<UploadFileIcon />}
+            disabled={!canSend}
             onClick={() => fileInputRef.current?.click()}
           >
             Add files
@@ -116,6 +120,7 @@ export function RoomView({ status, files, onSendFiles, onDownload, onLeave }: Ro
             type="file"
             multiple
             hidden
+            disabled={!canSend}
             onChange={(e) => {
               if (e.target.files && e.target.files.length > 0) {
                 onSendFiles(e.target.files)

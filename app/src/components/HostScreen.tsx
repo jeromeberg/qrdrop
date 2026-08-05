@@ -35,7 +35,7 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
       <Typography variant="h5" sx={{ fontWeight: 600 }}>
         Create a new room
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="textSecondary">
         Scan this code from the other device
       </Typography>
 
@@ -52,7 +52,14 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
         }}
       >
         {peerId ? (
-          <QRCodeCanvas value={peerId} size={232} level="M" marginSize={1} bgColor="#ffffff" fgColor="#000000" />
+          <QRCodeCanvas
+            value={peerId}
+            size={232}
+            level="M"
+            marginSize={1}
+            bgColor="#ffffff"
+            fgColor="#000000"
+          />
         ) : (
           <CircularProgress />
         )}
@@ -62,7 +69,7 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
 
       {peerId && (
         <Stack spacing={3} sx={{ alignItems: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="textSecondary">
             Or enter ID manually
           </Typography>
           <Paper
@@ -86,7 +93,7 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
       {status === 'waiting-for-peer' && (
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <CircularProgress size={16} />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="textSecondary">
             Waiting for a peer to connect...
           </Typography>
         </Stack>
@@ -95,7 +102,7 @@ export function HostScreen({ status, peerId, errorMessage, onStart, onBack }: Ho
       {status === 'connecting' && (
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <CircularProgress size={16} />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="textSecondary">
             Connecting...
           </Typography>
         </Stack>

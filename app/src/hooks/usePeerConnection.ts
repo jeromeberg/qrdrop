@@ -28,12 +28,16 @@ export function usePeerConnection(): UsePeerConnectionResult {
   const [remotePeerId, setRemotePeerId] = useState<string | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [connection, setConnection] = useState<DataConnection | null>(null)
+  const isTearingDownRef = useRef(false)
 
   const teardown = useCallback(() => {
+    isTearingDownRef.current = true
     connectionRef.current?.close()
     connectionRef.current = null
+    peerRef.current?.removeAllListeners()
     peerRef.current?.destroy()
     peerRef.current = null
+    isTearingDownRef.current = false
   }, [])
 
   useEffect(() => teardown, [teardown])
@@ -77,6 +81,7 @@ export function usePeerConnection(): UsePeerConnectionResult {
       })
 
       peer.on('disconnected', () => {
+        if (isTearingDownRef.current) return
         setStatus((prev) => (prev === 'connected' ? prev : 'reconnecting'))
         peer.reconnect()
       })

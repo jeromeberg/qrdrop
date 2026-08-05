@@ -16,7 +16,7 @@ export function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         <Typography variant="h3" gutterBottom sx={{ fontWeight: 700 }}>
           qrdrop
         </Typography>
-        <Typography color="text.secondary">
+        <Typography color="textSecondary">
           Share files directly between two devices with a QR code. No account, no server storage.
         </Typography>
       </Box>
